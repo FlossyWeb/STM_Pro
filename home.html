@@ -474,17 +474,19 @@
         {
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-			//var x=document.getElementById("results");
-			//x.innerHTML="lat = " + lat + " - lng = " +lng;
-			//alert('taxi: ' + taxi + ' tel: ' + tel + ' pass=' + pass);
+			var id_station = $.sessionStorage.getItem('id_station');
+			var name_station = $.sessionStorage.getItem('name_station');
+			var ticket = $.sessionStorage.getItem('ticket');
             $.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
 				if (dada.exit == 1)
 				{
-					alert('Vous venez de quitter la station !');
+					alert('Vous venez de quitter la station '+name_station);
 					$.sessionStorage.setItem('ticket', '');
 					$.sessionStorage.setItem('id_station', '');
 					$.sessionStorage.setItem('name_station', '');
 				}
+				$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+ticket+'</b></p>');
+				$('#jobResults').append('<input type="button" data-theme="b" data-icon="check" onClick="offStation()" id="off" value="Sortir de la Station"/>');
 			}, "json"); 
         }
 
@@ -572,6 +574,10 @@
 				var id_station = $.sessionStorage.getItem('id_station');
 				var ticket = $.sessionStorage.getItem('ticket');
 				$.post("https://ssl14.ovh.net/~taxibleu/client/off_station.php", { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket});
+				$.sessionStorage.setItem('ticket', '');
+				$.sessionStorage.setItem('id_station', '');
+				$.sessionStorage.setItem('name_station', '');
+				$('#jobResults').empty();
 			}
 		}
 		
@@ -884,6 +890,8 @@
 					display = '<p style="color:green;"><b>Station: '+data.name_station+' Num&eacute;ro d&rsquo;ordre acquis: '+data.ticket+' id_station = '+data.id_station+' - distance = '+data.distance+' m</b></p>';
 					$('#hookerCont').hide();
 					$('#nohooker').text(' CONTINUER ');
+					$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+ticket+'</b></p>');
+					$('#jobResults').append('<input type="button" data-theme="b" data-icon="check" onClick="offStation()" id="off" value="Sortir de la Station"/>');
 					Dispo_On();
 				}
 				else {
@@ -904,6 +912,21 @@
 			}, "json"); 
         }
 
+		function offStation()
+		{
+			if(($.sessionStorage.getItem('id_station') != '') && ($.sessionStorage.getItem('ticket') != ''))
+			{
+				//if we hooked to a station, we hook off
+				var id_station = $.sessionStorage.getItem('id_station');
+				var ticket = $.sessionStorage.getItem('ticket');
+				$.post("https://ssl14.ovh.net/~taxibleu/client/off_station.php", { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket});
+				$.sessionStorage.setItem('ticket', '');
+				$.sessionStorage.setItem('id_station', '');
+				$.sessionStorage.setItem('name_station', '');
+				$('#jobResults').empty();
+			}
+		}
+		
 		function taximedia()
 		{
 			//window.plugins.childBrowser.showWebPage('http://www.taximedia.fr/redir.php', { showLocationBar: true });
@@ -1243,6 +1266,7 @@
                     </div>
                     
                     <hr>
+                    <div id="jobResults"></div>
 					<a href="#history" data-transition="slide" style="width:32%;display:inline-block;">
                     	<p style="font-size: x-small;color:#FFF;">
                         	<img src="visuels/Historique_flat.png" width="90%"/><br>
@@ -1272,9 +1296,7 @@
                     </div>
                     <div data-role="content">
                         <h1>Lancer l&rsquo;appel d&rsquo;urgence ?</h1>
-                        <div id="hookerCont">
-                            <input type="button" data-theme="b" data-icon="check" onClick="getLocationOnce()" value="CONFIRMER"/>
-                        </div>
+                        <input type="button" data-theme="b" data-icon="check" onClick="getLocationOnce()" value="CONFIRMER"/>
                         <a href="#home" data-rel="back" data-icon="delete" data-role="button" data-transition="slideUp" data-theme="a">ANNULER</a>            
                         <div id="secureResults"></div>
                     </div>
@@ -1289,18 +1311,19 @@
                 <div data-role="popup" data-theme="a" id="station" data-dismissible="false" data-overlay-theme="b">
                     <div data-theme="a" data-role="header">
                         <h1>
-                            Station
+                            Travail en station
                         </h1>
                     </div>
                     <div data-role="content">
-                        <h1>D&eacute;sirez-vous obtenir un num&eacute;ro d&rsquo;ordre ? </h1>
-                        <input type="button" data-theme="b" data-icon="check" onClick="getLocationHook()" id="hooker" value="CONFIRMER"/>
+                        <p class="auction"><b>D&eacute;sirez-vous obtenir un num&eacute;ro d&rsquo;ordre ?</b></p>
+                        <div id="hookerCont">
+                            <input type="button" data-theme="b" data-icon="check" onClick="getLocationHook()" id="hooker" value="CONFIRMER"/>
+                        </div>
                         <a href="#jobs_taker" data-rel="back" data-icon="delete" data-role="button" data-transition="slideUp" id="nohooker" data-theme="a">ANNULER</a>            
                         <div id="stationResults"></div>
                     </div>
                 </div>                
-                <div id="results"></div>
-            </div>
+           </div>
             <div data-theme="a" data-role="footer" id="footer_cont1" data-position="fixed">
             	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
