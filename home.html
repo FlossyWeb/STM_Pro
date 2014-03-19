@@ -478,15 +478,21 @@
 			var name_station = $.sessionStorage.getItem('name_station');
 			var ticket = $.sessionStorage.getItem('ticket');
             $.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
-				if (dada.exit == 1)
+				if (data.exit == 1)
 				{
 					alert('Vous venez de quitter la station '+name_station);
 					$.sessionStorage.setItem('ticket', '');
 					$.sessionStorage.setItem('id_station', '');
 					$.sessionStorage.setItem('name_station', '');
+					$('#jobResults').empty();
+					$('#offCont').hide();
+					$('#hookerCont').show();
+					$('#nohooker').text(' ANNULER ');
+					$("#stationResults").empty();
 				}
-				$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+ticket+'</b></p>');
-				$('#jobResults').append('<input type="button" data-theme="b" data-icon="check" onClick="offStation()" id="off" value="Sortir de la Station"/>');
+				else {
+					$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+ticket+'</b></p>');
+				}
 			}, "json"); 
         }
 
@@ -578,6 +584,10 @@
 				$.sessionStorage.setItem('id_station', '');
 				$.sessionStorage.setItem('name_station', '');
 				$('#jobResults').empty();
+				$('#offCont').hide();
+				$('#hookerCont').show();
+				$('#nohooker').text(' ANNULER ');
+				$("#stationResults").empty();
 			}
 		}
 		
@@ -890,8 +900,8 @@
 					display = '<p style="color:green;"><b>Station: '+data.name_station+' Num&eacute;ro d&rsquo;ordre acquis: '+data.ticket+' id_station = '+data.id_station+' - distance = '+data.distance+' m</b></p>';
 					$('#hookerCont').hide();
 					$('#nohooker').text(' CONTINUER ');
-					$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+ticket+'</b></p>');
-					$('#jobResults').append('<input type="button" data-theme="b" data-icon="check" onClick="offStation()" id="off" value="Sortir de la Station"/>');
+					$("#jobResults").empty().append('<p><b>'+data.name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+					$('#offCont').show();
 					Dispo_On();
 				}
 				else {
@@ -924,6 +934,10 @@
 				$.sessionStorage.setItem('id_station', '');
 				$.sessionStorage.setItem('name_station', '');
 				$('#jobResults').empty();
+				$('#offCont').hide();
+				$('#hookerCont').show();
+				$('#nohooker').text(' ANNULER ');
+				$("#stationResults").empty();
 			}
 		}
 		
@@ -1267,6 +1281,9 @@
                     
                     <hr>
                     <div id="jobResults"></div>
+                    <div id="offCont" style="display:none;">
+                        <input type="button" data-theme="b" data-icon="delete" onClick="offStation()" id="off" value="Sortir de la Station"/>
+                    </div>
 					<a href="#history" data-transition="slide" style="width:32%;display:inline-block;">
                     	<p style="font-size: x-small;color:#FFF;">
                         	<img src="visuels/Historique_flat.png" width="90%"/><br>
