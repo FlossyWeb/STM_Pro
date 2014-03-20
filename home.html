@@ -251,6 +251,9 @@
 		var group = $.localStorage.getItem('group');
 		var mngid = $.localStorage.getItem('mngid');
 		var pass = $.localStorage.getItem('pass');
+		var id_station = $.localStorage.getItem('id_station');
+		var name_station = $.localStorage.getItem('name_station');
+		var ticket = $.localStorage.getItem('ticket');
 		var idcourse = $.sessionStorage.setItem('idcourse', '');
 		var idcourseUrg = $.sessionStorage.setItem('idcourseUrg', '');
 		var rdv = $.sessionStorage.setItem('rdv', '');
@@ -258,9 +261,6 @@
 		var cell = $.sessionStorage.setItem('cell', '');
 		var cmd = $.sessionStorage.setItem('cmd', 0);
 		var query_string = $.sessionStorage.setItem('query_string', '');
-		var id_station = $.sessionStorage.setItem('id_station', '');
-		var name_station = $.sessionStorage.setItem('name_station', '');
-		var ticket = $.sessionStorage.setItem('ticket', '');
 		var delay = 10;
 
         // Lecteur audio
@@ -371,7 +371,7 @@
 		});
 
         $('#jobs_taker').live( 'pageshow',function(event) {
-			if(($.sessionStorage.getItem('id_station') == '') && ($.sessionStorage.getItem('ticket') == ''))
+			if(($.localStorage.getItem('id_station') == '') && ($.localStorage.getItem('ticket') == ''))
 			{
 				$( "#station" ).popup( "open", { positionTo: "window" } );
 				//$.mobile.changePage( $("#station"), { transition: "slide"} );
@@ -474,16 +474,16 @@
         {
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-			var id_station = $.sessionStorage.getItem('id_station');
-			var name_station = $.sessionStorage.getItem('name_station');
-			var ticket = $.sessionStorage.getItem('ticket');
+			var id_station = $.localStorage.getItem('id_station');
+			var name_station = $.localStorage.getItem('name_station');
+			var ticket = $.localStorage.getItem('ticket');
             $.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
 				if (data.exit == 1)
 				{
 					alert('Vous venez de quitter la station '+name_station);
-					$.sessionStorage.setItem('ticket', '');
-					$.sessionStorage.setItem('id_station', '');
-					$.sessionStorage.setItem('name_station', '');
+					$.localStorage.setItem('ticket', '');
+					$.localStorage.setItem('id_station', '');
+					$.localStorage.setItem('name_station', '');
 					$('#jobResults').empty();
 					$('#offCont').hide();
 					$('#hookerCont').show();
@@ -491,7 +491,9 @@
 					$("#stationResults").empty();
 				}
 				else {
-					$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+ticket+'</b></p>');
+					if((id_station != '') && (ticket != '')) {
+						$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+ticket+'</b></p>');
+					}
 				}
 			}, "json"); 
         }
@@ -574,15 +576,15 @@
 			$("#dispo_jobs").empty().append('<a href="#jobs_taker" onClick="Dispo_On()"><img src="visuels/DispoOff_flat.png" width="100%"/></a>');
 			$("#dispo_cmd").empty().append('<a href="#jobs_taker" onClick="Dispo_On()"><img src="visuels/DispoOff_flat.png" width="100%"/></a>');
 			$.sessionStorage.setItem('dispo', '0');
-			if(($.sessionStorage.getItem('id_station') != '') && ($.sessionStorage.getItem('ticket') != ''))
+			if(($.localStorage.getItem('id_station') != '') && ($.localStorage.getItem('ticket') != ''))
 			{
 				//if we hooked to a station, we hook off
-				var id_station = $.sessionStorage.getItem('id_station');
-				var ticket = $.sessionStorage.getItem('ticket');
+				var id_station = $.localStorage.getItem('id_station');
+				var ticket = $.localStorage.getItem('ticket');
 				$.post("https://ssl14.ovh.net/~taxibleu/client/off_station.php", { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket});
-				$.sessionStorage.setItem('ticket', '');
-				$.sessionStorage.setItem('id_station', '');
-				$.sessionStorage.setItem('name_station', '');
+				$.localStorage.setItem('ticket', '');
+				$.localStorage.setItem('id_station', '');
+				$.localStorage.setItem('name_station', '');
 				$('#jobResults').empty();
 				$('#offCont').hide();
 				$('#hookerCont').show();
@@ -736,6 +738,7 @@
 						$.sessionStorage.setItem('com', data.com);
 						$.sessionStorage.setItem('cell', data.cell);
 						$.sessionStorage.setItem('cmd', 0);
+						offStation();
 						$.mobile.changePage( $("#directions_map"), { transition: "slide"} );
 						 
 						 break;
@@ -764,6 +767,7 @@
 						$.sessionStorage.setItem('com', data.com);
 						$.sessionStorage.setItem('cell', data.cell);
 						$.sessionStorage.setItem('cmd', 1);
+						offStation();
 						$.mobile.changePage( $("#directions_map"), { transition: "slide"} );
 						 
 						 break;
@@ -915,24 +919,24 @@
 					}
 				}
 				$("#stationResults").empty().append(display);
-				$.sessionStorage.setItem('ticket', data.ticket);
-				$.sessionStorage.setItem('id_station', data.id_station);
-				$.sessionStorage.setItem('name_station', data.name_station);
+				$.localStorage.setItem('ticket', data.ticket);
+				$.localStorage.setItem('id_station', data.id_station);
+				$.localStorage.setItem('name_station', data.name_station);
 				
 			}, "json"); 
         }
 
 		function offStation()
 		{
-			if(($.sessionStorage.getItem('id_station') != '') && ($.sessionStorage.getItem('ticket') != ''))
+			if(($.localStorage.getItem('id_station') != '') && ($.localStorage.getItem('ticket') != ''))
 			{
 				//if we hooked to a station, we hook off
-				var id_station = $.sessionStorage.getItem('id_station');
-				var ticket = $.sessionStorage.getItem('ticket');
+				var id_station = $.localStorage.getItem('id_station');
+				var ticket = $.localStorage.getItem('ticket');
 				$.post("https://ssl14.ovh.net/~taxibleu/client/off_station.php", { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket});
-				$.sessionStorage.setItem('ticket', '');
-				$.sessionStorage.setItem('id_station', '');
-				$.sessionStorage.setItem('name_station', '');
+				$.localStorage.setItem('ticket', '');
+				$.localStorage.setItem('id_station', '');
+				$.localStorage.setItem('name_station', '');
 				$('#jobResults').empty();
 				$('#offCont').hide();
 				$('#hookerCont').show();
@@ -1072,12 +1076,9 @@
 				document.location.href='index.html';
 				//$.mobile.changePage( "test.html", { transition: "slide"} );
 			}
-			/*
-			if(($.sessionStorage.getItem('id_station') == '') && ($.sessionStorage.getItem('ticket') == ''))
-			{
-				$.mobile.changePage( $("#station"), { transition: "slide"} );
-			}
-			*/
+			// Avoids Cabs to register to multiple stations shuting down the app in between.
+			offStation();
+			
 			//setTimeout('dispo()', 10000);
 			if(!app) getLocation();
 			dispo();
