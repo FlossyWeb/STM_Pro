@@ -492,7 +492,8 @@
 				}
 				else {
 					if((id_station != '') && (ticket != '')) {
-						$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+ticket+'</b></p>');
+						$.localStorage.setItem('ticket', data.ticket);
+						$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+data.ticket+'</b></p>');
 					}
 				}
 			}, "json"); 
@@ -507,9 +508,9 @@
 				{
 					$("#warn").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
 					$("#warn_home").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
-					//document.getElementById("play").play();
-					//document.getElementById("play_home").play();
-					navigator.notification.beep(2);
+					document.getElementById("play").play();
+					document.getElementById("play_home").play();
+					//navigator.notification.beep(2);
 					navigator.notification.vibrate(3600);
 				}
 				else
@@ -526,8 +527,8 @@
 				if (data != 0)
 				{
 					$("#warn_cmd").empty().append('<img src="visuels/Alerte_course_flat.png" width="100%"/>');
-					//document.getElementById("play_cmd").play();
-					navigator.notification.beep(2);
+					document.getElementById("play_cmd").play();
+					//navigator.notification.beep(2);
 					navigator.notification.vibrate(3600);
 				}
 				else
@@ -1384,7 +1385,7 @@
                         <option value="0-5">0-5 minutes</option>
                         <option value="5-10">5-10 minutes</option>
                         <option value="10-15">10-15 minutes</option>
-                        <option value=">15">>15 minutes</option>
+                        <option value="+ de 15">+ de 15 minutes</option>
                     </select>
                     <!-- 
                     <a href="#" id="link2diary" data-role="button" data-iconpos="left" data-icon="check" data-theme="b" style="display:none;">Envoyer</a>
