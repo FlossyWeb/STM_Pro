@@ -581,21 +581,7 @@
 			$("#dispo_jobs").empty().append('<a href="#jobs_taker" onClick="Dispo_On()"><img src="visuels/DispoOff_flat.png" width="100%"/></a>');
 			$("#dispo_cmd").empty().append('<a href="#jobs_taker" onClick="Dispo_On()"><img src="visuels/DispoOff_flat.png" width="100%"/></a>');
 			$.sessionStorage.setItem('dispo', '0');
-			if(($.localStorage.getItem('id_station') != '') && ($.localStorage.getItem('ticket') != ''))
-			{
-				//if we hooked to a station, we hook off
-				var id_station = $.localStorage.getItem('id_station');
-				var ticket = $.localStorage.getItem('ticket');
-				$.post("https://ssl14.ovh.net/~taxibleu/client/off_station.php", { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket});
-				$.localStorage.setItem('ticket', '');
-				$.localStorage.setItem('id_station', '');
-				$.localStorage.setItem('name_station', '');
-				$('#jobResults').empty();
-				$('#offCont').hide();
-				$('#hookerCont').show();
-				$('#nohooker').text(' ANNULER ');
-				$("#stationResults").empty();
-			}
+			offStation();
 		}
 		
         function playAudio(src) {
@@ -911,6 +897,7 @@
 					$('#nohooker').text(' CONTINUER ');
 					$("#jobResults").empty().append('<p><b>'+data.name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
 					$('#offCont').show();
+					$('#getCont').hide();
 					Dispo_On();
 				}
 				else {
@@ -944,6 +931,7 @@
 				$.localStorage.setItem('name_station', '');
 				$('#jobResults').empty();
 				$('#offCont').hide();
+				$('#getCont').show();
 				$('#hookerCont').show();
 				$('#nohooker').text(' ANNULER ');
 				$("#stationResults").empty();
@@ -1290,6 +1278,9 @@
                     <div id="offCont" style="display:none;">
                         <input type="button" data-theme="b" data-icon="delete" onClick="offStation()" id="off" value="Sortir de la Station"/>
                     </div>
+                    <div id="getCont" style="display:none;">
+                        <input type="button" data-theme="a" data-icon="check" onClick="getStation()" id="get" value="Travail en Station"/>
+                    </div>
 					<a href="#history" data-transition="slide" style="width:32%;display:inline-block;">
                     	<p style="font-size: x-small;color:#FFF;">
                         	<img src="visuels/Historique_flat.png" width="90%"/><br>
@@ -1333,9 +1324,9 @@
                 </div>
                 <div data-role="popup" data-theme="a" id="station" data-dismissible="false" data-overlay-theme="b">
                     <div data-theme="a" data-role="header">
-                        <h1>
+                        <p class="auction"><b>
                             Travail en station
-                        </h1>
+                        </b></p>
                     </div>
                     <div data-role="content">
                         <p class="auction"><b>D&eacute;sirez-vous obtenir un num&eacute;ro d&rsquo;ordre ?</b></p>
