@@ -507,8 +507,10 @@
 				{
 					$("#warn").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
 					$("#warn_home").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
-					document.getElementById("play").play();
-					document.getElementById("play_home").play();
+					//document.getElementById("play").play();
+					//document.getElementById("play_home").play();
+					navigator.notification.beep(2);
+					navigator.notification.vibrate(3600);
 				}
 				else
 				{
@@ -524,7 +526,9 @@
 				if (data != 0)
 				{
 					$("#warn_cmd").empty().append('<img src="visuels/Alerte_course_flat.png" width="100%"/>');
-					document.getElementById("play_cmd").play();
+					//document.getElementById("play_cmd").play();
+					navigator.notification.beep(2);
+					navigator.notification.vibrate(3600);
 				}
 				else
 				{
@@ -1192,7 +1196,7 @@
                     </a>
 					<a href="#infos" data-transition="slide" style="width:32%;display:inline-block;">
                     	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/VilleDeMarseille_flat.png" width="90%"/><br>
+                            <img src="visuels/stm_flat.png" width="90%"/><br>
                             Infos DCVP
                         </p>
                     </a>
@@ -1376,11 +1380,11 @@
                 <div class="ui-bar-a ui-corner-all ui-shadow" style="padding:1em;">
                     <label for="delay">Temps d&rsquo;approche : </label>
                     <select name="delay" id="delay" data-theme="b">
-                        <option selected value="10">d&eacute;lai</option>
-                        <option value="5">5 minutes</option>
-                        <option value="10">10 minutes</option>
-                        <option value="15">15 minutes</option>
-                        <option value="30">30 minutes</option>
+                        <option selected value="5-10">d&eacute;lai</option>
+                        <option value="0-5">0-5 minutes</option>
+                        <option value="5-10">5-10 minutes</option>
+                        <option value="10-15">10-15 minutes</option>
+                        <option value=">15">>15 minutes</option>
                     </select>
                     <!-- 
                     <a href="#" id="link2diary" data-role="button" data-iconpos="left" data-icon="check" data-theme="b" style="display:none;">Envoyer</a>
@@ -1451,7 +1455,7 @@
                     </a>
 					<a href="#infos" data-transition="slide" style="width:32%;display:inline-block;">
                     	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/VilleDeMarseille_flat.png" width="90%"/><br>
+                            <img src="visuels/stm_flat.png" width="90%"/><br>
                             Infos DCVP
                         </p>
                     </a>
@@ -1593,7 +1597,7 @@
                 </h1>
             </div>
             <div data-role="content">
-                <img src="visuels/Infos_header_flat.png" width="96%"/>
+                <img src="visuels/Infos_header_stm.png" width="96%"/>
                 <div id="infos_cont"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont6" data-position="fixed">
