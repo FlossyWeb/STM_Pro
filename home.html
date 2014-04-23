@@ -373,7 +373,7 @@
         $('#jobs_taker').live( 'pagecontainershow',function(event) {
 			if(($.localStorage.getItem('id_station') == '') && ($.localStorage.getItem('ticket') == ''))
 			{
-				$( "#station" ).popup( "open", { positionTo: "window" } );
+				$( "#stationPop" ).popup( "open", { positionTo: "window" } );
 				//$.mobile.pageContainer.pagecontainer("change", "#station", { transition: "slide"} );
 			}
 		});
@@ -504,7 +504,7 @@
 				else {
 					if((id_station != '') && (ticket != '')) {
 						$.localStorage.setItem('ticket', data.ticket);
-						$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+						$("#jobResults").empty().append('<p><b>'+name_station+' (id'+id_station+') - N&deg;Ordre = '+data.ticket+'</b></p>');
 					}
 				}
 			}, "json"); 
@@ -1303,7 +1303,7 @@
                         <input type="button" data-theme="b" data-icon="delete" onClick="offStation()" id="off" value="Sortir de la Station"/>
                     </div>
                     <div id="getCont">
-                        <a href="#station" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-info">Travail en Station</a>
+                        <a href="#stationPop" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-info">Travail en Station</a>
                     </div>
 					<a href="#history" data-transition="slide" style="width:32%;display:inline-block;">
                     	<p style="font-size: x-small;color:#FFF;">
@@ -1346,7 +1346,7 @@
                         Your browser does not support the audio element.
                     </audio>
                 </div>
-                <div data-role="popup" data-theme="a" id="station" data-dismissible="false" data-overlay-theme="b">
+                <div data-role="popup" data-theme="a" id="stationPop" data-dismissible="false" data-overlay-theme="b">
                     <div data-theme="a" data-role="header">
                         <p class="auction"><b>
                             Travail en station
