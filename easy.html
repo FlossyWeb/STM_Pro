@@ -1003,7 +1003,6 @@
 				getLocation();
 				dispo();
 				update();
-				footer();
 				// Avoids Cabs to register to multiple stations shuting down the app in between.
 				offStation();
 				scanner = cordova.require("cordova/plugin/BarcodeScanner");
@@ -1130,8 +1129,8 @@
 				getLocation();
 				update();
 				dispo();
-				footer();
 			}
+			footer();
 			//update_cmd();
 			//setTimeout('JobWatcher()', 2000); // Starts after 2 seconds...
 			
