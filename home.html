@@ -353,7 +353,7 @@
 						
         });
         
-        $('#directions_map').live('pagecontainershow', function() {
+        $('#directions_map').live('pageshow', function() {
             demo.add('directions_map', $('#map_canvas_1').gmap('get', 'getCurrentPosition')).load('directions_map');
         });
 		
@@ -370,7 +370,7 @@
 			//$('select#delay').selectmenu('refresh', true);
 		});
 
-        $('#jobs_taker').live( 'pagecontainershow',function(event) {
+        $('#jobs_taker').live( 'pageshow',function(event) {
 			if(($.localStorage.getItem('id_station') == '') && ($.localStorage.getItem('ticket') == ''))
 			{
 				$( "#stationPop" ).popup( "open", { positionTo: "window" } );
@@ -504,7 +504,7 @@
 				else {
 					if((id_station != '') && (ticket != '')) {
 						$.localStorage.setItem('ticket', data.ticket);
-						$("#jobResults").empty().append('<p><b>'+name_station+' (id'+id_station+') - N&deg;Ordre = '+data.ticket+'</b></p>');
+						$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
 					}
 				}
 			}, "json"); 
