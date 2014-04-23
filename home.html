@@ -476,10 +476,7 @@
 				default:
 				  x.innerHTML="<strong>Veuillez activer la G&eacute;olocalisation, si ce message revient, un red&eacute;marrage du smartphone peut-&ecirc;tre n&eacute;c&eacute;ssaire.</strong>"
 			}
-			// Fall back to no options and try again for Android to work.
-			navigator.geolocation.getCurrentPosition(get_coords, function(){
-				$( "#errorPop" ).popup( "open", { positionTo: "window" } );
-			});
+			$( "#errorPop" ).popup( "open", { positionTo: "window" } );
 		}			  
         function get_coords(position) 
         {
