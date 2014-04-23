@@ -43,16 +43,16 @@
         </script>    
 		<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
         <script src="phonegap.js"></script>
-        <script src="childbrowser.js"></script>
         <script src="js/plugins/Calendar.js"></script>
         <script src="barcodescanner.js"></script>
+		<script src="contactNumberPicker.js"></script>
+        <script src="sms.js"></script>
+        <!-- 
+        <script src="childbrowser.js"></script>
         <script src="PushNotification.js"></script>
         <script src="GAPlugin.js"></script>
         <script src="cdv-plugin-fb-connect.js"></script>
 		<script src="facebook-js-sdk.js"></script>
-        <!-- 
-        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script> 
-		<script type="text/javascript" src="js/marquee.js"></script>
         -->
         <script type="text/javascript" src="js/jquery.html5storage.min.js"></script>
         <script type="text/javascript" src="js/jquery.ui.autocomplete.min.js"></script>
@@ -81,6 +81,7 @@
 				if(navigator.network.connection.type == Connection.NONE){
 					$("body").empty().append('<img src="no_network.png" onClick="window.location.reload()" />');
 				}
+				StatusBar.overlaysWebView(false);
 			}
 		</script>
         <script type="text/javascript" src="js/jquery.validate.js"></script>

@@ -428,7 +428,12 @@
         {
             if (navigator.geolocation)
             {
-                navigator.geolocation.getCurrentPosition(get_coords, showError,{enableHighAccuracy:true, maximumAge:0});
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					navigator.geolocation.getCurrentPosition(get_coords, showError,{enableHighAccuracy:false, maximumAge:0});
+				}
+				else {
+					navigator.geolocation.getCurrentPosition(get_coords, showError,{enableHighAccuracy:true, maximumAge:0});
+				}
 				//var watchId = navigator.geolocation.watchPosition(get_coords, showError);
 				//navigator.geolocation.getAccurateCurrentPosition(get_coords, showError, {maxWait:30000});
             }
@@ -499,7 +504,7 @@
 				else {
 					if((id_station != '') && (ticket != '')) {
 						$.localStorage.setItem('ticket', data.ticket);
-						$("#jobResults").empty().append('<p><b>'+data.name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+						$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
 					}
 				}
 			}, "json"); 
@@ -657,6 +662,7 @@
 		// diaryCall for direct job that open #delay
 		function delayCall(query_string)
 		{
+			Sound_Off();
 			$.sessionStorage.setItem('query_string', query_string);
 			$.mobile.pageContainer.pagecontainer("change", "#delayPop", { transition: "slide"} );
 		}
@@ -708,6 +714,7 @@
 		// Diary call when accepting cmd jobs or refusing jobs
 		function diaryCall(query_string)
 		{
+			Sound_On(); // Pump up the volume 
 			$.mobile.loading( "show" );
 			$.post("https://ssl14.ovh.net/~taxibleu/server/diary_app_dcvp.php", query_string, function(data){ 
 				switch (data.location) {
@@ -740,7 +747,12 @@
             if (navigator.geolocation)
             {
 				$.mobile.loading( "show" );
-                navigator.geolocation.getCurrentPosition(secureCall, showError,{enableHighAccuracy:true, maximumAge:0});
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					navigator.geolocation.getCurrentPosition(secureCall, showError,{enableHighAccuracy:false, maximumAge:0});
+				}
+				else {
+					navigator.geolocation.getCurrentPosition(secureCall, showError,{enableHighAccuracy:true, maximumAge:0});
+				}
 				//var watchId = navigator.geolocation.watchPosition(get_coords, showError);
 				//navigator.geolocation.getAccurateCurrentPosition(get_coords, showError, {maxWait:30000});
             }
@@ -816,7 +828,12 @@
             if (navigator.geolocation)
             {
 				$.mobile.loading( "show" );
-                navigator.geolocation.getCurrentPosition(getStation, showErrorHook,{enableHighAccuracy:true, maximumAge:0});
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					navigator.geolocation.getCurrentPosition(getStation, showError,{enableHighAccuracy:false, maximumAge:0});
+				}
+				else {
+					navigator.geolocation.getCurrentPosition(getStation, showError,{enableHighAccuracy:true, maximumAge:0});
+				}
             }
             else {
 				alert("Localisation impossible.");
@@ -936,11 +953,11 @@
 				if(navigator.network.connection.type == Connection.NONE){
 					$("body").empty().append('<img src="no_network.png" onClick="window.location.reload()" />');
 				}
+				StatusBar.overlaysWebView(false);
 				//Functions to call only at app first load
 				getLocation();
 				dispo();
 				update();
-				footer();
 				// Avoids Cabs to register to multiple stations shuting down the app in between.
 				offStation();
 				scanner = cordova.require("cordova/plugin/BarcodeScanner");
@@ -1069,8 +1086,8 @@
 				getLocation();
 				dispo();
 				update();
-				footer();
 			}
+			footer();
 			//update_cmd();
 			//setTimeout('JobWatcher()', 2000); // Starts after 2 seconds...
 			

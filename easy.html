@@ -428,7 +428,12 @@
         {
             if (navigator.geolocation)
             {
-                navigator.geolocation.getCurrentPosition(get_coords, showError,{enableHighAccuracy:true, maximumAge:0});
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					navigator.geolocation.getCurrentPosition(get_coords, showError,{enableHighAccuracy:false, maximumAge:0});
+				}
+				else {
+					navigator.geolocation.getCurrentPosition(get_coords, showError,{enableHighAccuracy:true, maximumAge:0});
+				}
 				//var watchId = navigator.geolocation.watchPosition(get_coords, showError);
 				//navigator.geolocation.getAccurateCurrentPosition(get_coords, showError, {maxWait:30000});
             }
@@ -786,7 +791,12 @@
             if (navigator.geolocation)
             {
 				$.mobile.loading( "show" );
-                navigator.geolocation.getCurrentPosition(secureCall, showError,{enableHighAccuracy:true, maximumAge:0});
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					navigator.geolocation.getCurrentPosition(secureCall, showError,{enableHighAccuracy:false, maximumAge:0});
+				}
+				else {
+					navigator.geolocation.getCurrentPosition(secureCall, showError,{enableHighAccuracy:true, maximumAge:0});
+				}
 				//var watchId = navigator.geolocation.watchPosition(get_coords, showError);
 				//navigator.geolocation.getAccurateCurrentPosition(get_coords, showError, {maxWait:30000});
             }
@@ -862,7 +872,12 @@
             if (navigator.geolocation)
             {
 				$.mobile.loading( "show" );
-                navigator.geolocation.getCurrentPosition(getStation, showErrorHook,{enableHighAccuracy:true, maximumAge:0});
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					navigator.geolocation.getCurrentPosition(getStation, showError,{enableHighAccuracy:false, maximumAge:0});
+				}
+				else {
+					navigator.geolocation.getCurrentPosition(getStation, showError,{enableHighAccuracy:true, maximumAge:0});
+				}
             }
             else {
 				alert("Localisation impossible.");
@@ -983,7 +998,14 @@
 				if(navigator.network.connection.type == Connection.NONE){
 					$("body").empty().append('<img src="no_network.png" onClick="window.location.reload()" />');
 				}
+				StatusBar.overlaysWebView(false);
+				//Functions to call only at app first load
 				getLocation();
+				dispo();
+				update();
+				footer();
+				// Avoids Cabs to register to multiple stations shuting down the app in between.
+				offStation();
 				scanner = cordova.require("cordova/plugin/BarcodeScanner");
 			}
 		}
@@ -1102,14 +1124,14 @@
 				document.location.href='index.html';
 				//$.mobile.changePage( "test.html", { transition: "slide"} );
 			}
-			// Avoids Cabs to register to multiple stations shuting down the app in between.
-			offStation();
 			
 			//setTimeout('dispo()', 10000);
-			if(!app) getLocation();
-			dispo();
-			update();
-			footer();
+			if(!app) {
+				getLocation();
+				update();
+				dispo();
+				footer();
+			}
 			//update_cmd();
 			//setTimeout('JobWatcher()', 2000); // Starts after 2 seconds...
 			
