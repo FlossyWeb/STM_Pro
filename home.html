@@ -476,42 +476,39 @@
 				default:
 				  x.innerHTML="<strong>Veuillez activer la G&eacute;olocalisation, si ce message revient, un red&eacute;marrage du smartphone peut-&ecirc;tre n&eacute;c&eacute;ssaire.</strong>"
 			}
-			$( "#errorPop" ).popup( "open", { positionTo: "window" } );
-		}			  
-        function get_coords(position, status) 
-        {
-			if ( status === 'OK' ) {
-				lat = position.coords.latitude;
-				lng = position.coords.longitude;
-				var id_station = $.localStorage.getItem('id_station');
-				var name_station = $.localStorage.getItem('name_station');
-				var ticket = $.localStorage.getItem('ticket');
-				$.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
-					if (data.exit == 1)
-					{
-						alert('Vous venez de quitter la station '+name_station);
-						$.localStorage.setItem('ticket', '');
-						$.localStorage.setItem('id_station', '');
-						$.localStorage.setItem('name_station', '');
-						$('#jobResults').empty();
-						$('#offCont').hide();
-						$('#hookerCont').show();
-						$('#nohooker').text(' ANNULER ');
-						$("#stationResults").empty();
-					}
-					else {
-						if((id_station != '') && (ticket != '')) {
-							$.localStorage.setItem('ticket', data.ticket);
-							$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
-						}
-					}
-				}, "json");
-			}
-			else {
-				var x=document.getElementById("ePopResults");
-				x.innerHTML="<strong>Impossible d&rsquo;obtenir une position GPS.<br>Veuillez activer la G&eacute;olocalisation, si ce message revient, un red&eacute;marrage du smartphone peut-&ecirc;tre n&eacute;c&eacute;ssaire.</strong>"
+			// Fall back to no options and try again for Android to work.
+			navigator.geolocation.getCurrentPosition(get_coords, function(){
 				$( "#errorPop" ).popup( "open", { positionTo: "window" } );
-			}
+			});
+		}			  
+        function get_coords(position) 
+        {
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
+			alert(lat+lng);
+			var id_station = $.localStorage.getItem('id_station');
+			var name_station = $.localStorage.getItem('name_station');
+			var ticket = $.localStorage.getItem('ticket');
+            $.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
+				if (data.exit == 1)
+				{
+					alert('Vous venez de quitter la station '+name_station);
+					$.localStorage.setItem('ticket', '');
+					$.localStorage.setItem('id_station', '');
+					$.localStorage.setItem('name_station', '');
+					$('#jobResults').empty();
+					$('#offCont').hide();
+					$('#hookerCont').show();
+					$('#nohooker').text(' ANNULER ');
+					$("#stationResults").empty();
+				}
+				else {
+					if((id_station != '') && (ticket != '')) {
+						$.localStorage.setItem('ticket', data.ticket);
+						$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+					}
+				}
+			}, "json"); 
         }
 
 		function update()
