@@ -478,33 +478,40 @@
 			}
 			$( "#errorPop" ).popup( "open", { positionTo: "window" } );
 		}			  
-        function get_coords(position) 
+        function get_coords(position, status) 
         {
-            lat = position.coords.latitude;
-            lng = position.coords.longitude;
-			var id_station = $.localStorage.getItem('id_station');
-			var name_station = $.localStorage.getItem('name_station');
-			var ticket = $.localStorage.getItem('ticket');
-            $.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
-				if (data.exit == 1)
-				{
-					alert('Vous venez de quitter la station '+name_station);
-					$.localStorage.setItem('ticket', '');
-					$.localStorage.setItem('id_station', '');
-					$.localStorage.setItem('name_station', '');
-					$('#jobResults').empty();
-					$('#offCont').hide();
-					$('#hookerCont').show();
-					$('#nohooker').text(' ANNULER ');
-					$("#stationResults").empty();
-				}
-				else {
-					if((id_station != '') && (ticket != '')) {
-						$.localStorage.setItem('ticket', data.ticket);
-						$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+			if ( status === 'OK' ) {
+				lat = position.coords.latitude;
+				lng = position.coords.longitude;
+				var id_station = $.localStorage.getItem('id_station');
+				var name_station = $.localStorage.getItem('name_station');
+				var ticket = $.localStorage.getItem('ticket');
+				$.post("https://ssl14.ovh.net/~taxibleu/client/insert_app_stm_geoloc.php?lat="+lat+"&lng="+lng, { taxi: taxi, tel: tel, pass: pass, id_station: id_station, ticket: ticket }, function(data){
+					if (data.exit == 1)
+					{
+						alert('Vous venez de quitter la station '+name_station);
+						$.localStorage.setItem('ticket', '');
+						$.localStorage.setItem('id_station', '');
+						$.localStorage.setItem('name_station', '');
+						$('#jobResults').empty();
+						$('#offCont').hide();
+						$('#hookerCont').show();
+						$('#nohooker').text(' ANNULER ');
+						$("#stationResults").empty();
 					}
-				}
-			}, "json"); 
+					else {
+						if((id_station != '') && (ticket != '')) {
+							$.localStorage.setItem('ticket', data.ticket);
+							$("#jobResults").empty().append('<p><b>'+name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+						}
+					}
+				}, "json");
+			}
+			else {
+				var x=document.getElementById("ePopResults");
+				x.innerHTML="<strong>Impossible d&rsquo;obtenir une position GPS.<br>Veuillez activer la G&eacute;olocalisation, si ce message revient, un red&eacute;marrage du smartphone peut-&ecirc;tre n&eacute;c&eacute;ssaire.</strong>"
+				$( "#errorPop" ).popup( "open", { positionTo: "window" } );
+			}
         }
 
 		function update()
@@ -1214,7 +1221,7 @@
                 </div>
                 <div id="results"></div>
                 <a href="#secureDialog" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-alert">Bouton d&rsquo;urgence</a>
-                <div data-role="popup" data-theme="a" id="secureDialog" data-dismissible="false" data-overlay-theme="b">
+                <div data-role="popup" data-theme="a" id="secureDialog" data-dismissible="false">
                     <div data-theme="a" data-role="header">
                         <h1>
                             Confirmation
@@ -1227,7 +1234,7 @@
                         <div id="secureResults"></div>
                     </div>
                 </div>        
-                <div data-role="popup" data-theme="a" id="errorPop" data-dismissible="true" data-overlay-theme="b">
+                <div data-role="popup" data-theme="a" id="errorPop" data-dismissible="true">
 					<a href="#home" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Fermer</a>
                     <div data-theme="a" data-role="header">
                         <h1>
@@ -1323,7 +1330,7 @@
                 </div>
                 <div class="cleaner"></div>
                 <a href="#secureDialogJobs" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-alert">Bouton d&rsquo;urgence</a>
-                <div data-role="popup" data-theme="a" id="secureDialogJobs" data-dismissible="false" data-overlay-theme="b">
+                <div data-role="popup" data-theme="a" id="secureDialogJobs" data-dismissible="false">
                     <div data-theme="a" data-role="header">
                         <h1>
                             Confirmation
@@ -1343,7 +1350,7 @@
                         Your browser does not support the audio element.
                     </audio>
                 </div>
-                <div data-role="popup" data-theme="a" id="stationPop" data-dismissible="false" data-overlay-theme="b">
+                <div data-role="popup" data-theme="a" id="stationPop" data-dismissible="false">
                     <div data-theme="a" data-role="header">
                         <p class="auction"><b>
                             Travail en station
@@ -1481,7 +1488,7 @@
                 </div>
                 <div class="cleaner"></div>
                 <a href="#secureDialogCmd" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-alert">Bouton d&rsquo;urgence</a>
-                <div data-role="popup" data-theme="a" id="secureDialogCmd" data-dismissible="false" data-overlay-theme="b">
+                <div data-role="popup" data-theme="a" id="secureDialogCmd" data-dismissible="false">
                     <div data-theme="a" data-role="header">
                         <h1>
                             Confirmation
