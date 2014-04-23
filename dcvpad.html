@@ -68,6 +68,7 @@
     <script type="text/javascript" src="ui/jquery.ui.map.extensions.js"></script>
     <script type="text/javascript" src="js/jquery.ui.autocomplete.min.js"></script>
     -->
+	<script type="text/javascript" src="js/jquery.geocomplete.min.js"></script>
 	<script type="text/javascript" src="ui/min/jquery.ui.map.full.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/dcvpad.css" />
     <script type="text/javascript">	
@@ -86,12 +87,17 @@
 	
 	////////////////////////////////////////////////////////////
 	
-	$( '#infos' ).live( 'pageinit',function(event){
-		var input = document.getElementById('addressInput');
+	$( '#infos' ).live( 'pagecreate',function(event){
+		/*
 		var options = {
 		  componentRestrictions: {country: 'fr'}
 		};
 		var autocomplete = new google.maps.places.Autocomplete(input, options);
+		*/
+		$("#addressInput").geocomplete({
+		  map: "#map",
+		  location: "Marseille, France"
+		});
 
         $("#search-box").hide("fast");
 		$("#next-box").show("medium");
@@ -117,7 +123,7 @@
 		//$('#dblinks').empty();	 
 	});
 	
-	$('#map_page').live('pageinit', function() {
+	$('#map_page').live('pagecreate', function() {
 		//demo.add('basic_map', function() {
 		//$('#dblinks').empty();
 		$('#map').gmap({'center': mobileMap.center, 'zoom': mobileMap.zoom, 'disableDefaultUI':false, 'mapTypeId': google.maps.MapTypeId.ROADMAP, 'callback': function() {
@@ -157,7 +163,7 @@
 					//searchLocationsNear(myPlace, self);
 				} else {
 					alert(address + ' NON TROUVEE ');
-					$.mobile.changePage( $("#infos"), { transition: "slide", reverse: true} );
+					$.mobile.pageContainer.pagecontainer("change", "#infos", { transition: "slide", reverse: true} );
 				}
 			});
 		}}); 
@@ -196,7 +202,7 @@
                     //$.fancybox.close();
                     var endbox = confirm('Vous devez soit relancer votre course (OK) soit rechercher de nouveau taxis !! (Annuler)');
                     if (endbox == true) {
-						$.mobile.changePage( $("#infos"), { transition: "slide", reverse: true} );
+						$.mobile.pageContainer.pagecontainer("change", "#infos", { transition: "slide", reverse: true} );
                     }
                     else {
                         document.location.href='home.html';
@@ -207,7 +213,7 @@
         });
 	});
 	
-	$('#map_page').live('pageshow', function() {
+	$('#map_page').live('pagecontainershow', function() {
 		//demo.add('basic_map', function() { $('#map').gmap('refresh'); }).load('basic_map');
 		//$('#map').gmap("option", "center", mobileMap.center);
 		$('#map').gmap('refresh');
@@ -335,23 +341,40 @@
     }        
 	function stopCall()
 	{
-		cancel(idcourse);
-		$.mobile.changePage( $("#infos"), { transition: "slide", reverse: true} );
+		$.mobile.loading( "show" );
+		$('#dblinks').empty();	 
 		clearInterval(sec);
 		clearInterval(time);
 		clearTimeout(endcourse);
-		//document.location.href='home.html';
+		cancel(idcourse);
+		//$('#map').gmap('destroy');
+		//$.mobile.pageContainer.pagecontainer("change", "#infos", { transition: "slide", reverse: true} );
+		var wait2getBack = setTimeout( function () {
+			document.location.href='dcvpad.html';
+		}, 2000);
 	}
     function gobis(flag)
     {
         document.location.href=flag;
     }        
+    function goBackMode()
+    {
+		$.mobile.loading( "show" );
+		if($.localStorage.getItem('easy'))
+		{
+			document.location.href='easy.html';
+			//$.mobile.changePage( "test.html", { transition: "slideup"} );
+		}
+		else {
+			document.location.href='home.html';
+		}
+    }        
     function processMap()
     {
-        $.mobile.changePage( $("#map_page"), { transition: "slide"} );
+        $.mobile.pageContainer.pagecontainer("change", "#map_page", { transition: "slide"} );
     }
 	
-    $(document).bind( 'pageinit', function() {
+    $(document).bind( 'pagecreate', function() {
 		
         var getback = setTimeout( function () {
             $("#cancel").trigger('click');
@@ -363,30 +386,29 @@
     <body style="margin:0px; padding:0px;">
     <div data-role="page" data-theme="b" style="background: #00254B url(visuels/bg.png) top left repeat-x;" id="infos">
         <div data-role="header">
-            <a href="home.html" data-theme="a" data-icon="back" data-iconpos="left" data-role="button" data-transition="slide" data-ajax="false">
+            <a href="#" onClick="goBackMode()" class="ui-btn ui-btn-a ui-shadow ui-corner-all ui-btn-icon-left ui-icon-back" data-transition="slide" data-ajax="false">
                 <h1><b>Retour</b></h1>
             </a>
         </div>
-        <div data-role="content">
+        <div class="ui-content" role="main">
             <center>
             <!-- 
             <a href="taxipad_portal.php" class="back"><img src="picts/Back_blue.png" /></a>
             <a href="taxipad_portal.php" class="back"><img src="picts/back_button.png" /></a>
-            -->
             <div style="display:block; height:30px"></div>
-            <div class="ui-bar-a ui-corner-all ui-shadow" style="padding:1em; margin: 16px; display:block;">
-                <div style="display:block; height:6px"></div>
-                <h1 class="hostname">Envoyez une course</h1>
+            -->
+            <div class="ui-bar-a ui-corner-all ui-shadow" style="padding:1em; display:block;">
+                <p><b>Envoyez une course</b></p>
                 <input type="hidden" id="operator" size="40" value="0"/>
                 <input type="hidden" id="hostname" size="40" value=""/>
                 <input type="hidden" id="group" size="16" value="1"/>
                 <input type="hidden" id="exclu" size="1" value="0"/>
                 <input type="hidden" id="goFavs" size="1" value="0"/>
-                <input type="text" id="addressInput" size="40" placeholder="Adresse RDV"/>
+                <input type="text" id="addressInput" size="40" placeholder="Adresse RDV" data-clear-btn="true"/>
                 <input type="hidden" id="DestAddress" size="10" value="DESTINATION"/>
                 <input type="text" id="Accurate" class="mustHave" size="26" placeholder="Nom du client *"/>
                 <input type="tel" id="cellular" class="mustHave" size="20" placeholder="Tel du client *"/>
-                <p style="font-size:medium; font-weight:bold;"><em>*</em> Ces informations sont obligatoires</p>
+                <p style="font-size:small;"><em>*</em> Ces informations sont obligatoires</p>
                 <label for="howMany">Combien de passagers :</label>
                 <input name="howMany" id="howMany" min="1" max="8" value="1" data-show-value="true" data-popup-enabled="true" type="range">
                 <p id="datelabel"><b>Date et heure du RDV si r&eacute;servation :</b></p>
@@ -425,7 +447,7 @@
                 <input type="hidden" id="radiusSelect" value="100" />
                 <p>&nbsp;</p>
                 <div id="next-box"><input type="button" id="next" data-theme="a" value="Suivant"/></div>
-                <div id="search-box"><a href="#map_page" data-role="button" data-theme="b" id="search">Rechercher un taxi</a></div>
+                <div id="search-box"><a href="#map_page" class="ui-btn ui-btn-b ui-shadow ui-corner-all ui-btn-icon-left ui-icon-search" id="search">Rechercher un taxi</a></div>
                 <!-- <div id="search-box"><input type="button" data-theme="a" onClick="processMap()" id="search" value="<?php echo $searchtext; ?>"/></div> -->
                 <!--
                 <hr>
@@ -436,8 +458,8 @@
         </div>
     </div>
     <div data-role="page" data-theme="b" id="map_page" style="background: #00254B url(visuels/bg.png) top left repeat-x;">
-        <div data-role="content">
-            <div class="ui-bar-a ui-corner-all ui-shadow" style="padding:1em; margin: 16px; display:block;">
+        <div class="ui-content" role="main">
+            <div class="ui-bar-a ui-corner-all ui-shadow" style="padding:1em; display:block;">
                 
                 <center>
                 <div id="deliv-hide" style="width: 0px; height: 0px; visibility:hidden;">
@@ -445,7 +467,7 @@
                 </div>
                 <div class="ui-bar-b ui-corner-all ui-shadow" style="padding:1em; margin-bottom: 6px;"><p><b>Veuillez patienter pendant la recherche SVP</b></p></div>
                 </center>
-                <div id="map" style="height:460px;"></div>
+                <div id="map" style="height:360px;"></div>
                 <div id="left" style="width: 0px; height: 0px; visibility:hidden;">
                     <div id="dblinks">
                     </div>
@@ -458,7 +480,7 @@
                             Confirmation
                         </h1>
                     </div>
-                    <div data-role="content">
+                    <div class="ui-content" role="main">
                         <div id="answer"></div>
                         <input type="button" value="OK" onClick="gobis('home.html')"/>
                     </div>

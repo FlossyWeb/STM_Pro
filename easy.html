@@ -499,7 +499,7 @@
 				else {
 					if((id_station != '') && (ticket != '')) {
 						$.localStorage.setItem('ticket', data.ticket);
-						$("#jobResults").empty().append('<p><b>'+data.name_station+' - N&deg;Ordre = '+data.ticket+'</b></p>');
+						$("#jobResults").empty().append('<p><b>'+name_station+' - ID= '+id_station+' - Ticket= '+data.ticket+'</b></p>');
 					}
 				}
 			}, "json"); 
@@ -588,7 +588,53 @@
 			$("#dispo_cmd").empty().append('<a href="#jobs_taker" onClick="Dispo_On()"><img src="visuels/DispoOff_flat.png" width="100%"/></a>');
 			$.sessionStorage.setItem('dispo', '0');
 			offStation();
-		}		
+		}
+		
+        function playAudio(src) {
+            // Créer l'objet Media à partir de src
+            my_media = new Media(src, onSuccess, onError);
+
+            // Lire le clip audio
+            my_media.play();
+			/*
+            // Récupérer la positon courante une fois par seconde
+            if (mediaTimer == null) {
+                mediaTimer = setInterval(function() {
+                    // Récupérer la positon de my_media
+                    my_media.getCurrentPosition(
+                        // Callback en cas de succès
+                        function(position) {
+                            if (position > -1) {
+                                setAudioPosition((position) + " sec");
+                            }
+                        },
+                        // Callback en cas d'erreur
+                        function(e) {
+                            console.log("Erreur lors de la récupération de la position = " + e);
+                            setAudioPosition("Erreur : " + e);
+                        }
+                    );
+                }, 1000);
+            }
+			*/
+        }
+
+        // Mettre en pause la lecture audio
+        function pauseAudio() {
+            if (my_media) {
+                my_media.pause();
+            }
+        }
+
+        // Arrêter la lecture audio
+        function stopAudio() {
+            if (my_media) {
+                my_media.stop();
+            }
+            //clearInterval(mediaTimer);
+            //mediaTimer = null;
+        }
+		
 		function Sound_On()
 		{
 			$("#sound").empty().append('<a href="#jobs_taker" onClick="Sound_Off()"><img src="visuels/sound_on.png" width="20"/></a>');
@@ -867,6 +913,7 @@
 					}
 					if (data.full == 1) {
 						display = '<p style="color:red;"><b>La station '+data.name_station+' est pleine !!</b></p>';
+
 						$('#hooker').val('REESSAYER');
 					}
 				}
@@ -913,12 +960,12 @@
 			//window.plugins.childBrowser.showWebPage('http://taxibleuservices.com/client/docs/CGV.pdf', { showLocationBar: true });
 			window.open('http://taxibleuservices.com/client/docs/CGV.pdf','_blank','location=yes,enableViewportScale=yes,closebuttoncaption=Fermer');
 		}
-		function goEasy()
+		function unEasy()
 		{
 			$.mobile.loading( "show" );
-			$.localStorage.setItem('easy', true)
+			$.localStorage.setItem('easy', false)
 			var wait2go = setTimeout( function () {
-				document.location.href='easy.html';
+				document.location.href='home.html';
 			}, 1000);
 		}
 		
@@ -936,13 +983,7 @@
 				if(navigator.network.connection.type == Connection.NONE){
 					$("body").empty().append('<img src="no_network.png" onClick="window.location.reload()" />');
 				}
-				//Functions to call only at app first load
 				getLocation();
-				dispo();
-				update();
-				footer();
-				// Avoids Cabs to register to multiple stations shuting down the app in between.
-				offStation();
 				scanner = cordova.require("cordova/plugin/BarcodeScanner");
 			}
 		}
@@ -968,8 +1009,8 @@
 				}
 			} else if (productFormats.match(result.format)) {
 				var searchUrl = "https://www.google.fr/#q=" + result.text;
-				//setTimeout(function() { window.plugins.childBrowser.showWebPage(searchUrl, { showLocationBar: true }); }, 500);
-				setTimeout(function() { window.open(searchUrl,'_blank','location=yes,enableViewportScale=yes,closebuttoncaption=Fermer'); }, 500);
+				setTimeout(function() { window.plugins.childBrowser.showWebPage(searchUrl, { showLocationBar: true }); }, 500);
+				//setTimeout(function() { //window.open(searchUrl,'_blank','location=yes'); }, 500);
 			} else { alert("Format du scan: " + result.format + 
 					  " NON SUPPORTE. Valeur du scan: " + result.text);
 			}
@@ -1061,16 +1102,14 @@
 				document.location.href='index.html';
 				//$.mobile.changePage( "test.html", { transition: "slide"} );
 			}
+			// Avoids Cabs to register to multiple stations shuting down the app in between.
+			offStation();
 			
 			//setTimeout('dispo()', 10000);
-			if(!app) {
-				// Avoids Cabs to register to multiple stations shuting down the app in between.
-				offStation();
-				getLocation();
-				dispo();
-				update();
-				footer();
-			}
+			if(!app) getLocation();
+			dispo();
+			update();
+			footer();
 			//update_cmd();
 			//setTimeout('JobWatcher()', 2000); // Starts after 2 seconds...
 			
@@ -1124,7 +1163,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#home" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div class="ui-content" role="main" id="home_cont">
@@ -1254,7 +1293,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#jobs_taker" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1366,7 +1405,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#delayPop" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1416,7 +1455,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#cmd" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1509,7 +1548,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#planning" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1550,7 +1589,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#history" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1591,7 +1630,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#infos" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1625,7 +1664,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#manage" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
@@ -1817,7 +1856,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#directions_map" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
 			<div data-role="header">
@@ -1865,7 +1904,7 @@
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
                 </ul>
-                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
                 <a href="#toolate" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
             </div><!-- /panel -->
             <div data-theme="a" data-role="header" data-position="fixed">
