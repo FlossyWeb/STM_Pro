@@ -45,15 +45,14 @@
     <script src="phonegap.js"></script>
     <script src="js/plugins/Calendar.js"></script>
     <script src="barcodescanner.js"></script>
+	<script src="contactNumberPicker.js"></script>
+    <script src="sms.js"></script>
+    <!-- 
+    <script src="childbrowser.js"></script>
     <script src="PushNotification.js"></script>
     <script src="GAPlugin.js"></script>
     <script src="cdv-plugin-fb-connect.js"></script>
     <script src="facebook-js-sdk.js"></script>
-    <!-- 
-    <script src="childbrowser.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
-    <script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
-    <script type="text/javascript" src="js/marquee.js"></script>
     -->
     <script type="text/javascript" src="js/jquery.html5storage.min.js"></script>
     <script type="text/javascript" src="js/jquery.ui.autocomplete.min.js"></script>
@@ -513,7 +512,7 @@
 		function update()
 		{
 			var dispo = $.sessionStorage.getItem('dispo');
-			$.post("https://ssl14.ovh.net/~taxibleu/server/get_app_drive.php", { taxi: taxi, tel: tel, email: email, dispo: dispo, pass: pass, mngid: mngid, group: group }, function(data){ 
+			$.post("https://ssl14.ovh.net/~taxibleu/stm/get_app_drive.php", { taxi: taxi, tel: tel, email: email, dispo: dispo, pass: pass, mngid: mngid, group: group }, function(data){ 
 				$("#screen_job").empty().append(data);
 				if (data != 0)
 				{
@@ -533,7 +532,7 @@
 				}
 			});
 
-			$.post("https://ssl14.ovh.net/~taxibleu/server/get_app_drive.php?cmd=1", { taxi: taxi, tel: tel, email: email, dispo: dispo, pass: pass, mngid: mngid, group: group }, function(data){ 
+			$.post("https://ssl14.ovh.net/~taxibleu/stm/get_app_drive.php?cmd=1", { taxi: taxi, tel: tel, email: email, dispo: dispo, pass: pass, mngid: mngid, group: group }, function(data){ 
 				$("#screen_job_cmd").empty().append(data);
 				if (data != 0)
 				{
@@ -680,6 +679,7 @@
 		function directCall()
 		{
 			$.mobile.loading( "show" );
+			Sound_On(); // Pump up the volume 
 			// Getting query_string using sessionStorage
 			var dataDiary = $.sessionStorage.getItem('query_string');
 			// Modifying the link 2 diary
@@ -714,8 +714,8 @@
 		// Diary call when accepting cmd jobs or refusing jobs
 		function diaryCall(query_string)
 		{
-			Sound_On(); // Pump up the volume 
 			$.mobile.loading( "show" );
+			Sound_On(); // Pump up the volume 
 			$.post("https://ssl14.ovh.net/~taxibleu/server/diary_app_dcvp.php", query_string, function(data){ 
 				switch (data.location) {
 					 case '#directions_map':
@@ -1000,6 +1000,84 @@
 				}
 			);
 		}
+		function contactPick()
+		{
+			var successCallbackPick = function(result){
+				setTimeout(function(){
+					//alert(result.name + " " + result.phoneNumber);
+					var number = result.phoneNumber;
+					$('#telShare').val(number);
+				},500);
+			};
+			var failedCallbackPick = function(result){
+				setTimeout(function(){
+					//alert(result);
+				},500);
+			}
+			window.plugins.contactNumberPicker.pick(successCallbackPick,failedCallbackPick);
+		}
+		function Share()
+		{
+			var number = $('#telShare').val();
+			var message = "Téléchargez l'app des Taxis Marseillais en suivant ce lien : http://www.taximedia.fr/stores.php?app=stm";
+			var intent = ""; //leave empty for sending sms using default intent
+			var success = function () {
+				//alert('Message sent successfully');
+				$('#smsReturn').empty().append('Message envoy&eacute; avec succ&egrave;s, Merci');
+				$( "#popSms" ).popup( "open", { positionTo: "window" } );
+			};
+			var error = function (e) {
+				//alert('Message Failed:' + e); 
+				$('#smsReturn').empty().append('Probl&egrave;me lors de l&rsquo;envoi du message: ' + e);
+				$( "#popSms" ).popup( "open", { positionTo: "window" } );
+			};
+			sms.send(number, message, intent, success, error);
+		}
+		function ShareArt()
+		{
+			var number = $('#telShare').val();
+			var message = "Téléchargez l'app artisan taxi STM PRO en suivant ce lien : http://www.taximedia.fr/stores.php?app=stm&dep=13";
+			var intent = ""; //leave empty for sending sms using default intent
+			var success = function () {
+				//alert('Message sent successfully');
+				$('#smsReturn').empty().append('Message envoy&eacute; avec succ&egrave;s, Merci');
+				$( "#popSms" ).popup( "open", { positionTo: "window" } );
+			};
+			var error = function (e) {
+				//alert('Message Failed:' + e); 
+				$('#smsReturn').empty().append('Probl&egrave;me lors de l&rsquo;envoi du message: ' + e);
+				$( "#popSms" ).popup( "open", { positionTo: "window" } );
+			};
+			sms.send(number, message, intent, success, error);
+		}
+		function contactShare()
+		{
+			var successCallbackPick = function(result){
+				setTimeout(function(){
+					//alert(result.name + " " + result.phoneNumber);
+					var number = result.phoneNumber;
+					var message = "Téléchargez l'app des Taxis Marseillais en suivant ce lien : http://www.taximedia.fr/stores.php?app=stm";
+					var intent = ""; //leave empty for sending sms using default intent
+					var success = function () {
+						//alert('Message sent successfully');
+						$('#smsReturn').empty().append('Message envoy&eacute; avec succ&egrave;s, Merci');
+						$( "#popSms" ).popup( "open", { positionTo: "window" } );
+					};
+					var error = function (e) {
+						//alert('Message Failed:' + e); 
+						$('#smsReturn').empty().append('Probl&egrave;me lors de l&rsquo;envoi du message: ' + e);
+						$( "#popSms" ).popup( "open", { positionTo: "window" } );
+					};
+					sms.send(number, message, intent, success, error);
+				},500);
+			};
+			var failedCallbackPick = function(result){
+				setTimeout(function(){
+					//alert(result);
+				},500);
+			}
+			window.plugins.contactNumberPicker.pick(successCallbackPick,failedCallbackPick);
+		}
 		/*
 		// Swiping between pages function
 		$('div.ui-page').live("swipeleft", function(){
@@ -1140,6 +1218,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#home" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1270,6 +1350,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#jobs_taker" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1382,6 +1464,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#delayPop" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1432,6 +1516,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#cmd" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1525,6 +1611,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#planning" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1566,6 +1654,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#history" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1607,6 +1697,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#infos" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1641,6 +1733,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#manage" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1807,6 +1901,23 @@
                             <a href="#" onClick="cgv()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-info" data-transition="slide"><b>Consulter les CGV</b></a>
                             <a href="http://taxibleuservices.com/client/docs/CGV.pdf" target="_blank" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-action" data-transition="slide"><b>T&eacute;l&eacute;charger les CGV</b></a>
                         </div>
+                        <div data-role="collapsible" data-collapsed="true">
+                            <h1>
+                                Partager les apps STM 
+                            </h1>
+                            <table width="100%" border="0">
+                                <thead><tr><th width="90%"></th><th width="10%"></th></tr></thead>
+                                <tbody>
+                                <tr><td>
+                                    <input type="tel" id="telShare" data-clear-btn="true" placeholder="Tel" maxlength="60" size="20" value="">
+                                </td><td>
+                                    <input type="button" data-icon="edit" data-iconpos="notext" value="Geoloc" onClick="contactPick()"/>
+                                </td></tr>
+                                </tbody>
+                            </table>
+                            <a href="#" onClick="Share()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail ui-shadow-icon ui-corner-all"><b>STM Particuliers</b></a>
+                            <a href="#" onClick="ShareArt()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail ui-shadow-icon ui-corner-all"><b>STM Artisans</b></a>
+                        </div>
                     </div>
                     <input type="button" value="Scanner un QrCode" onClick="goScan()" data-icon="camera"/>
                 </div>
@@ -1833,6 +1944,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#directions_map" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
@@ -1881,6 +1994,8 @@
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
                 <a href="#toolate" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
