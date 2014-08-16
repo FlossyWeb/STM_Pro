@@ -517,18 +517,18 @@
 				if (data != 0)
 				{
 					$("#warn").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
-					$("#warn_home").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
+					//$("#warn_home").empty().append('<a href="#jobs_taker"><img src="visuels/Alerte_course_flat.png" width="100%"/></a>');
 					document.getElementById("play").play();
-					document.getElementById("play_home").play();
+					//document.getElementById("play_home").play();
 					//navigator.notification.beep(2);
 					navigator.notification.vibrate(3600);
 				}
 				else
 				{
 					$("#warn").empty().append('<a href="#jobs_taker"><img src="visuels/Aucune_course_flat.png" width="100%"/></a>');
-					$("#warn_home").empty().append('<a href="#jobs_taker"><img src="visuels/Aucune_course_flat.png" width="100%"/></a>');
+					//$("#warn_home").empty().append('<a href="#jobs_taker"><img src="visuels/Aucune_course_flat.png" width="100%"/></a>');
 					document.getElementById("play").pause();
-					document.getElementById("play_home").pause();
+					//document.getElementById("play_home").pause();
 				}
 			});
 
@@ -660,7 +660,7 @@
 		function footer()
 		{
 			$.post("https://ssl14.ovh.net/~taxibleu/client/footer_app.php", function(data) {
-				for (i=0; i<9; i++) {
+				for (i=1; i<9; i++) {
 					$('#footer_cont' + i).empty().append(data);
 				}
 			});
@@ -1228,171 +1228,22 @@
 						
 		});
 	</script>
-	<script type="text/javascript">
-    
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-35285544-1']);
-      _gaq.push(['_trackPageview']);
-    
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    
-    </script>
     </head>
     <body>
     <center>
-        <div data-role="page" data-theme="a" id="home">
-
-            <div data-role="panel" id="homepanel" data-position="left" data-display="reveal" data-theme="e">
-                <!-- panel content goes here -->
-                <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
-                  <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
-                  <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
-                  <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
-                  <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
-                  <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
-                  <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
-                  <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
-                  <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
-                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
-                </ul>
-                <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
-                <a href="#home" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
-            </div><!-- /panel -->
-            <div class="ui-content" role="main" id="home_cont">
-                <div class="ui-bar-b ui-corner-all ui-shadow" style="padding:1em; text-align: left;">
-                <div style="text-align: left;">
-                    <div id="dispo">
-						<a href="#home" onClick="Dispo_Off()"><img src="visuels/DispoOn_flat.png" width="100%"/></a>
-                	</div>
-                    <div id="warn_home">
-                    	<a href="#jobs_taker" data-transition="slide" id="go2jobs">
-                            <img src="visuels/Aucune_course_flat.png" width="100%"/>
-                        </a>
-                    </div>
-                </div>
-                </div>
-                <img src="visuels/p1.png" width="128"/>
-                <div class="ui-bar-b ui-corner-all ui-shadow" style="padding:1em;">
-					<a href="#history" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                        	<img src="visuels/Historique_flat.png" width="90%"/><br>
-                    		Historique
-                        </p>
-                    </a>
-					<a href="#cmd" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/Ordered_flat.png" width="90%"/><br>
-                            Commandes
-                        </p>
-                    </a>
-					<a href="#planning" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                        	<img src="visuels/Planning_flat.png" width="90%"/><br>
-                    		Planning
-                        </p>
-                    </a>
-					<a href="#" onClick="help()" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/Help_flat.png" width="90%"/><br>
-                            Aide utilisateur
-                        </p>
-                    </a>
-					<a href="#manage" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/Facture_flat.png" width="90%"/><br>
-                            Mon compte
-                        </p>
-                    </a>
-					<a href="#directions_map" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                        	<img src="visuels/Maps_flat.png" width="90%"/><br>
-                    		GPS
-                        </p>
-                    </a>
-					<a href="#infos" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/stm_flat.png" width="90%"/><br>
-                            Infos STM
-                        </p>
-                    </a>
-					<a href="#" onClick="taximedia()" data-transition="slide" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/TaxiMedia_flat.png" width="90%"/><br>
-                            TaxiMedia.fr
-                        </p>
-                    </a>
-					<a href="dcvpad.html" data-ajax="false" style="width:32%;display:inline-block;">
-                    	<p style="font-size: x-small;color:#FFF;">
-                            <img src="visuels/Taxi.png" width="90%"/><br>
-                            Partager
-                        </p>
-                    </a>
-                    <!-- N&rsquo;oubliez pas de vous rendre indisponible quand vous ne d&eacute;sirez plus prendre de courses, cela vous &eacute;vitera d&rsquo;&ecirc;tre importun&eacute; durant votre repos.<br> -->
-                </div>
-                <div id="results"></div>
-                <a href="#secureDialog" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-alert">Bouton d&rsquo;urgence</a>
-                <div data-role="popup" data-theme="a" id="secureDialog" data-dismissible="false" data-overlay-theme="b">
-                    <div data-theme="a" data-role="header">
-                        <h1>
-                            Confirmation
-                        </h1>
-                    </div>
-                    <div class="ui-content" role="main">
-                        <h1>Lancer l&rsquo;appel d&rsquo;urgence ?</h1>
-                        <input type="button" data-theme="b" data-icon="check" onClick="getLocationOnce()" value="CONFIRMER"/>
-                        <a href="#home" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-back ui-btn-icon-left" data-transition="slideUp">ANNULER</a>            
-                        <div id="secureResults"></div>
-                    </div>
-                </div>        
-                <div data-role="popup" data-theme="a" id="errorPop" data-dismissible="true" data-overlay-theme="b">
-					<a href="#home" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Fermer</a>
-                    <div data-theme="a" data-role="header">
-                        <h1>
-                            G&eacute;olocalisation
-                        </h1>
-                    </div>
-                    <div class="ui-content" role="main">
-                        <div id="ePopResults"></div>
-                    </div>
-                </div>
-                <div id="player_home">
-                    <audio id="play_home" loop="loop" preload="auto" style="display:none" >
-                        <source src="http://www.taxibleuservices.com/client/sounds/ring.mp3" type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-                <a href="#homepanel" id="homepanel_poper"></a>
-            </div>
-            <div data-theme="a" data-role="footer" id="footer_cont0" data-position="fixed">
-				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
-                <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
-            </div>
-        </div>
         
         <div data-role="page" data-theme="a" id="jobs_taker">
             <div data-role="panel" id="jobs_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1463,6 +1314,17 @@
                         <div id="secureResults"></div>
                     </div>
                 </div>        
+                <div data-role="popup" data-theme="a" id="errorPop" data-dismissible="true" data-overlay-theme="b">
+					<a href="#home" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Fermer</a>
+                    <div data-theme="a" data-role="header">
+                        <h1>
+                            G&eacute;olocalisation
+                        </h1>
+                    </div>
+                    <div class="ui-content" role="main">
+                        <div id="ePopResults"></div>
+                    </div>
+                </div>
                 <div id="player">
                 
                     <audio id="play" loop="loop" preload="auto" style="display:none;">
@@ -1487,7 +1349,7 @@
                 </div>                
            </div>
             <div data-theme="a" data-role="footer" id="footer_cont1" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1495,18 +1357,14 @@
             <div data-role="panel" id="delay_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1539,7 +1397,7 @@
                 </div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont2" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1547,18 +1405,14 @@
             <div data-role="panel" id="cmd_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1634,7 +1488,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont3" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1642,18 +1496,14 @@
             <div data-role="panel" id="planning_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1677,7 +1527,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont4" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1685,18 +1535,14 @@
             <div data-role="panel" id="history_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1720,7 +1566,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont5" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1728,18 +1574,14 @@
             <div data-role="panel" id="infos_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1756,7 +1598,7 @@
                 <div id="infos_cont"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont6" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1764,18 +1606,14 @@
             <div data-role="panel" id="manage_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -1966,7 +1804,7 @@
                 <div id="returns"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont7" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1975,18 +1813,14 @@
             <div data-role="panel" id="map_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -2025,18 +1859,14 @@
             <div data-role="panel" id="toolate_panel" data-position="left" data-display="reveal" data-theme="e">
                 <!-- panel content goes here -->
                 <ul data-role="listview" data-inset="true" data-theme="b">
-                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
                   <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
-                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
                   <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
-                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
                   <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
                   <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
                   <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
                   <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
                   <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos STM</b></a></li>
                   <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
-                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
                   <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
                 </ul>
                 <a href="#"  onClick="unEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Avanc&eacute;</a>
@@ -2054,7 +1884,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont8" data-position="fixed">
-				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>

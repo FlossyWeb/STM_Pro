@@ -441,7 +441,23 @@
             }
             setTimeout('getLocation()', 60000); // Every minutes you check geolocation...
         }
-				
+        function testGeoloc()
+        {
+			var passed = function () { 
+				alert('REUSSI');
+				document.location.href='home.html';
+			}
+			var failed = function () { 
+				alert('ECHEC');
+			}
+            if (navigator.geolocation)
+            {
+				navigator.geolocation.getCurrentPosition(passed, failed,{enableHighAccuracy:false, maximumAge:0});
+            }
+            else {
+				alert("Localisation impossible.");
+            }
+        }
 		function stopWatch()
 		{
 			navigator.geolocation.clearWatch(watchId);
@@ -1156,7 +1172,17 @@
 				document.location.href='index.html';
 				//$.mobile.changePage( "test.html", { transition: "slide"} );
 			}
-			
+			// Advert user that the app may need his Android device to be rebooted, for geolocation to work.
+			var droidFirstInstall = 1;
+			var droidFirstInstall = $.localStorage.getItem('v1.3.0');
+			if(!droidFirstInstall) {
+				$.localStorage.setItem('v1.3.0', 0);
+				if (navigator.userAgent.toLowerCase().match(/android/)) {
+					setTimeout(function () {
+						$.mobile.pageContainer.pagecontainer("change", "#droidFirstInstall", { transition: "slide"} );
+					 }, 3000);
+				}
+			}
 			//setTimeout('dispo()', 10000);
 			if(!app) {
 				// Avoids Cabs to register to multiple stations shuting down the app in between.
@@ -1186,19 +1212,6 @@
 						
 		});
 	</script>
-	<script type="text/javascript">
-    
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-35285544-1']);
-      _gaq.push(['_trackPageview']);
-    
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    
-    </script>
     </head>
     <body>
     <center>
@@ -1330,7 +1343,7 @@
                 <a href="#homepanel" id="homepanel_poper"></a>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont0" data-position="fixed">
-				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
                 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1445,7 +1458,7 @@
                 </div>                
            </div>
             <div data-theme="a" data-role="footer" id="footer_cont1" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1497,7 +1510,7 @@
                 </div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont2" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1592,7 +1605,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont3" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1635,7 +1648,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont4" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1678,7 +1691,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont5" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1714,7 +1727,7 @@
                 <div id="infos_cont"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont6" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -1924,7 +1937,7 @@
                 <div id="returns"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont7" data-position="fixed">
-            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+            	<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -2012,7 +2025,7 @@
                 <div id="results"></div>
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont8" data-position="fixed">
-				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des information DCVP en cours.</b></marquee></div>
+				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Mise &agrave; jour des informations DCVP en cours.</b></marquee></div>
 <p class="copyright" style="font-size:xx-small">&copy; 2012 - </p>
             </div>
         </div>
@@ -2032,6 +2045,45 @@
             </div>
             <div data-theme="a" data-role="footer" id="footer_cont8" data-position="fixed">
 				<div class="ui-bar-b ui-corner-all ui-shadow" style="width:96%;height:19px;"><marquee><b>Proc&eacute;dure d&rsquo;appel d&rsquo;urgence activ&eacute;e.</b></marquee></div>
+            </div>
+        </div>
+        
+        <div data-role="page" data-theme="a" id="droidFirstInstall">
+            <div data-role="panel" id="dfi_panel" data-position="left" data-display="reveal" data-theme="b">
+                <!-- panel content goes here -->
+                <ul data-role="listview" data-inset="true" data-theme="b">
+                  <li><a href="#home" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-home"><b>Accueil</b></a></li>
+                  <li><a href="#jobs_taker" data-transition="slide"><b>Courses directes</b></a></li>
+                  <li><a href="#cmd" data-transition="slide"><b>Courses command&eacute;es</b></a></li>
+                  <li><a href="#history" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bars"><b>Historique</b></a></li>
+                  <li><a href="#planning" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-calendar"><b>Planning</b></a></li>
+                  <li><a href="#manage" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-user"><b>Mon compte</b></a></li>
+                  <li><a href="#directions_map" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-location"><b>Carte GPS</b></a></li>
+                  <li><a href="#" onClick="help()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-bullets"><b>Aide utilisateur</b></a></li>
+                  <li><a href="#" onClick="taximedia()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-eye"><b>TaxiMedia.fr</b></a></li>
+                  <li><a href="#infos" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-info"><b>Infos myTaxi</b></a></li>
+                  <li><a href="dcvpad.html" data-ajax="false" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-action"><b>Envoyer une course</b></a></li>
+                  <li><a href="#" onClick="goScan()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-camera"><b>Scanner un code</b></a></li>
+                  <li><a href="#" onClick="contactShare()" data-transition="slide" class="ui-btn ui-btn-icon-left ui-icon-mail"><b>Envoyer l&rsquo;app</b></a></li>
+                </ul>
+                <a href="#"  onClick="goEasy()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-power">Mode Simple</a>
+                <a href="#droidFirstInstall" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-delete">Fermer</a>
+            </div><!-- /panel -->
+            <div data-theme="b" data-role="header">
+                <a href="#dfi_panel" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-home large">
+                	<span style="font-size:16px;"><b>Menu</b></span>
+                </a>
+                <span class="ui-title"></span>
+            </div>
+            <div class="ui-content" role="main">
+                <div class="ui-bar-b ui-corner-all ui-shadow" style="padding:1em;">
+                    <p>&nbsp;</p>
+                    <p style="color:#09F; font-size:1.2em;"><strong>Un test de G&eacute;olocalisation est recquis.</strong></p>
+                    <br>
+                    <p>Appuiyez sur le bouton test, si rien ne se passe pendant 30 secondes, veuillez suivre la proc&eacute;dure en rouge</p>
+                    <input type="button" data-theme="b" data-icon="check" onClick="testGeoloc()" value="Test"/>
+                    <p style="color:#F00; font-size:1.2em;">Veuillez activer la G&eacute;olocalisation, puis red&eacute;marrer votre appareil.</strong></p>
+               </div>                    
             </div>
         </div>
         

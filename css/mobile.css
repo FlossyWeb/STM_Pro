@@ -130,26 +130,65 @@ a {
 	-webkit-box-shadow: 0 0 2px #F00;
 }			
 #later {
-	color: #333;
-	background-color: #FFF;
+	color: #CCC;
+	background: -webkit-linear-gradient(rgba(255,0,0,0), #FF0); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgba(255,0,0,0), #FF0); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgba(255,0,0,0), #FF0); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgba(255,0,0,0), #FF0); /* Standard syntax */
 	border: #666;
 	box-shadow: 0 0 2px #CCC;
 	-moz-box-shadow: 0 0 2px #CCC; 
 	-webkit-box-shadow: 0 0 2px #CCC;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
-	opacity: 0.9;
-	filter: alpha(opacity=90);
 	padding: 6px;
 	margin: 6px;
 }			
 .later_head {
 	font-size: 24px;
-	color: #000;
+	color: #FC0;
+}
+#pro {
+	color: #CCC;
+	background: -webkit-linear-gradient(rgba(255,0,0,0), #09F); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgba(255,0,0,0), #09F); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgba(255,0,0,0), #09F); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgba(255,0,0,0), #09F); /* Standard syntax */
+	border: #666;
+	box-shadow: 0 0 2px #CCC;
+	-moz-box-shadow: 0 0 2px #CCC; 
+	-webkit-box-shadow: 0 0 2px #CCC;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	padding: 6px;
+	margin: 6px;
+}			
+.pro_head {
+	font-size: 24px;
+	color: #0CF;
+}
+#med {
+	color: #CCC;
+	background: -webkit-linear-gradient(rgba(255,0,0,0), #0F0); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgba(255,0,0,0), #0F0); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgba(255,0,0,0), #0F0); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgba(255,0,0,0), #0F0); /* Standard syntax */
+	border: #666;
+	box-shadow: 0 0 2px #CCC;
+	-moz-box-shadow: 0 0 2px #CCC; 
+	-webkit-box-shadow: 0 0 2px #CCC;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	padding: 6px;
+	margin: 6px;
+}			
+.med_head {
+	font-size: 24px;
+	color: #0F0;
 }
 .auction {
 	font-size: 24px;
-	color: #333;
+	color: #FFF;
 }
 .info_head {
 	font-size: 24px;
